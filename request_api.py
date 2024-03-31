@@ -1,4 +1,5 @@
 from pprint import pprint
+
 import requests
 
 
@@ -10,7 +11,6 @@ def days_info():
     json_response = response.json()["message"]
     if not json_response:
         raise RuntimeError("Пустой json")
-    pprint(json_response)
     return json_response
 
 
@@ -23,8 +23,27 @@ def room_info(day='25', month='01', year='23'):
     json_response = response.json()["message"]
     if not json_response:
         raise RuntimeError("Пустой json")
-    pprint(json_response)
     return json_response
 
-days_info()
-room_info()
+
+def func_lights_in_all_rooms(count_room=None, windows=None):
+    res_lst = []
+    for day in days_info():
+        room = room_info(*day.split('-'))
+        lst_personal_numbers_rooms = []
+        lst_is_light = []
+        if not (windows is None) and room['windows_for_flat']['data'] != windows:
+            continue
+        if not (count_room is None) and len(room['windows_for_flat']['data']) != count_room:
+            continue
+        for i in range(len(room['windows']['data'])):
+            floor_lst = [] * sum(map(int, room['windows_for_flat']['data']))
+            for k, j in enumerate(room['windows_for_flat']['data']):
+                floor_lst.extend([i * 3 + k + 1] * j)
+            lst_personal_numbers_rooms.append(floor_lst)
+            lst_is_light.append(room['windows']['data'][f'floor_{i + 1}'])
+        res_lst.append((lst_personal_numbers_rooms[::-1], lst_is_light[::-1]))
+    return res_lst
+
+
+pprint(func_lights_in_all_rooms())
