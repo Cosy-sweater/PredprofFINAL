@@ -11,29 +11,34 @@
     </script>
 </head>
 <body>
-    <h1>Заголовок</h1>
-    <label>Дата: </label>
-    <select onchange="abc(value)">
-            <option value="">               </option>
-        {% for item in dates %}
-            <option value="{{ item }}">{{ item }}</option>
-        {% endfor %}
-    </select>
+<h1>Окна общежития</h1>
+<label>Дата: </label>
+<select onchange="abc(value)">
+    <option value=""></option>
+    {% for item in dates %}
+    <option value="{{ item }}">{{ item }}</option>
+    {% endfor %}
+</select>
 
-    <table>
-      <caption>
+<table>
+    <caption>
         <p>Дата: {{ request.args.get('date') }}</p>
-      </caption>
+    </caption>
 
-      <tbody>
-      {% for item in fashion_items %}
-        <tr>
-          <td>{{ item.style }}</td>
-          <td>{{ item.color }}</td>
-          <td>{{ item.history }}</td>
-        </tr>
-      {% endfor %}
+    <tbody>
+    {% for item in (data or [" ", " ", " "]) %}
+    <tr>
+        {% for v in item %}
+            <td bgcolor={{ "yellow" if v[1] == 'y' else "white" }}>{{ v[0] }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
     </tbody>
-    </table>
+</table>
+<h2>Ответ:
+    <h3> Номера комнат: {{ data2 }}</h3>
+    <h3> Количество комнат: {{ data2|length }}</h3>
+</h2>
+
 </body>
 </html>
