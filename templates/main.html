@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function abc(){
+            window.location.replace("{{ url_for('get_data') }}");
+        }
+    </script>
+</head>
+<body>
+    <h1>Заголовок</h1>
+    <label>Дата: </label>
+    <select onchange="abc()">
+        {% for item in dates %}
+            <option value="{{ item }}">{{ item }}</option>
+        {% endfor %}
+    </select>
+
+    <table>
+      <caption>
+        <p>*Дата*</p>
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Person</th>
+          <th scope="col">Most interest in</th>
+          <th scope="col">Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Chris</th>
+          <td>HTML tables</td>
+          <td>22</td>
+        </tr>
+        <tr>
+          <th scope="row">Dennis</th>
+          <td>Web accessibility</td>
+          <td>45</td>
+        </tr>
+        <tr>
+          <th scope="row">Sarah</th>
+          <td>JavaScript frameworks</td>
+          <td>29</td>
+        </tr>
+        <tr>
+          <th scope="row">Karen</th>
+          <td>Web performance</td>
+          <td>36</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th scope="row" colspan="2">Average age</th>
+          <td>33</td>
+        </tr>
+      </tfoot>
+    </table>
+</body>
+</html>
