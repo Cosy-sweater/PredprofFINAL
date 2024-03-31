@@ -28,7 +28,7 @@ def room_info(day='25', month='01', year='23'):
 
 def func_lights_in_all_rooms(count_room=None, windows=None):
     res_lst = []
-    for day in days_info():
+    for day in days_info()[:3]:
         room = room_info(*day.split('-'))
         lst_personal_numbers_rooms = []
         lst_is_light = []
@@ -47,7 +47,13 @@ def func_lights_in_all_rooms(count_room=None, windows=None):
             for j in range(len(lst_personal_numbers_rooms[i])):
                 if lst_is_light[i][j] is True:
                     set_rooms_with_light.add(lst_personal_numbers_rooms[i][j])
-        res_lst.append((lst_personal_numbers_rooms[::-1], lst_is_light[::-1], sorted(set_rooms_with_light)))
+        res_lst = []
+        for i, lst in enumerate(lst_personal_numbers_rooms[::-1]):
+            new_lst = []
+            for j, numb in enumerate(lst):
+                new_lst.append((lst[j], 'y' if lst_is_light[::-1][i][j] else 'w'))
+            res_lst.append(new_lst)
+        res_lst.append((day, res_lst, sorted(set_rooms_with_light)))
     return res_lst
 
 
@@ -68,7 +74,13 @@ def func_light_in_one_room(day=None, month=None, year=None):
         for j in range(len(lst_personal_numbers_rooms[i])):
             if lst_is_light[i][j] is True:
                 set_rooms_with_light.add(lst_personal_numbers_rooms[i][j])
-    return lst_personal_numbers_rooms[::-1], lst_is_light[::-1], sorted(set_rooms_with_light)
+    res_lst = []
+    for i, lst in enumerate(lst_personal_numbers_rooms[::-1]):
+        new_lst = []
+        for j, numb in enumerate(lst):
+            new_lst.append((lst[j], 'y' if lst_is_light[::-1][i][j] else 'w'))
+        res_lst.append(new_lst)
+    return res_lst, sorted(set_rooms_with_light)
 
 
-pprint(func_light_in_one_room(25, '01', 23))
+pprint(func_lights_in_all_rooms())
