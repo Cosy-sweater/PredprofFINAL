@@ -1,3 +1,36 @@
-.container {
-    display: flex;
+/* spacing */
+
+table {
+  table-layout: fixed;
+  width: 70%;
+  border-collapse: collapse;
+  border: 3px solid purple;
 }
+
+thead th:nth-child(1) {
+  width: 30%;
+}
+
+thead th:nth-child(2) {
+  width: 20%;
+}
+
+thead th:nth-child(3) {
+  width: 15%;
+}
+
+thead th:nth-child(4) {
+  width: 35%;
+}
+
+th,
+td {
+  padding: 20px;
+}
+
+body, html {
+font-family: freight-text-pro, serif;
+font-style: normal;
+font-size:24pt; }
+
+
