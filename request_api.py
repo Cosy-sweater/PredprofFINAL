@@ -46,4 +46,19 @@ def func_lights_in_all_rooms(count_room=None, windows=None):
     return res_lst
 
 
-pprint(func_lights_in_all_rooms())
+def func_light_in_one_room(day=None, month=None, year=None):
+    if any(not isinstance(i, int) and not isinstance(i, str) for i in (day, month, year)):
+        raise RuntimeError('Некорректно указана дата')
+    room = room_info(day, month, year)
+    lst_personal_numbers_rooms = []
+    lst_is_light = []
+    for i in range(len(room['windows']['data'])):
+        floor_lst = [] * sum(map(int, room['windows_for_flat']['data']))
+        for k, j in enumerate(room['windows_for_flat']['data']):
+            floor_lst.extend([i * 3 + k + 1] * j)
+        lst_personal_numbers_rooms.append(floor_lst)
+        lst_is_light.append(room['windows']['data'][f'floor_{i + 1}'])
+    return lst_personal_numbers_rooms[::-1], lst_is_light[::-1]
+
+
+pprint(func_light_in_one_room(25, '01', 23))
