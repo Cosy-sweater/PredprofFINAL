@@ -1,30 +1,22 @@
 from flask import Flask, render_template, redirect, url_for, request, session
+import request_api
 
 app = Flask(__name__)
 
 
-# @app.route('/')
-# def main():
-#     if 'username' in session:
-#         username = session['username']
-#         is_admin = is_user_admin(username)
-#         return render_template('main.html', username=username, is_admin=is_admin)
-#     return render_template('main.html')
-
-
 @app.route("/", methods=["GET"])
 def main():
-    return render_template("main.html", dates=[123, 456, 798])
+    default_args = {
+        'date': "0-0-0"
+    }
+    print(request.args.to_dict())
 
-
-@app.route("/test", methods=["GET"])
-def test():
-    print(123)
-    return render_template("test.html")
+    return render_template("main.html", dates=request_api.days_info())
 
 
 @app.route("/get_data", methods=["GET"])
 def get_data():
+    print(app.config)
     return "123"
 
 

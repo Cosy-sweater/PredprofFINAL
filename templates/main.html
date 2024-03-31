@@ -5,15 +5,16 @@
     <title>Title</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script>
-        function abc(){
-            window.location.replace("{{ url_for('get_data') }}");
+        function abc(value){
+            window.location.replace("{{ url_for('main') }}?date=" + value);
         }
     </script>
 </head>
 <body>
     <h1>Заголовок</h1>
     <label>Дата: </label>
-    <select onchange="abc()">
+    <select onchange="abc(value)">
+            <option value="">               </option>
         {% for item in dates %}
             <option value="{{ item }}">{{ item }}</option>
         {% endfor %}
@@ -21,43 +22,18 @@
 
     <table>
       <caption>
-        <p>*Дата*</p>
+        <p>Дата: {{ request.args.get('date') }}</p>
       </caption>
-      <thead>
-        <tr>
-          <th scope="col">Person</th>
-          <th scope="col">Most interest in</th>
-          <th scope="col">Age</th>
-        </tr>
-      </thead>
+
       <tbody>
+      {% for item in fashion_items %}
         <tr>
-          <th scope="row">Chris</th>
-          <td>HTML tables</td>
-          <td>22</td>
+          <td>{{ item.style }}</td>
+          <td>{{ item.color }}</td>
+          <td>{{ item.history }}</td>
         </tr>
-        <tr>
-          <th scope="row">Dennis</th>
-          <td>Web accessibility</td>
-          <td>45</td>
-        </tr>
-        <tr>
-          <th scope="row">Sarah</th>
-          <td>JavaScript frameworks</td>
-          <td>29</td>
-        </tr>
-        <tr>
-          <th scope="row">Karen</th>
-          <td>Web performance</td>
-          <td>36</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th scope="row" colspan="2">Average age</th>
-          <td>33</td>
-        </tr>
-      </tfoot>
+      {% endfor %}
+    </tbody>
     </table>
 </body>
 </html>
