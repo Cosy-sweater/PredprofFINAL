@@ -32,6 +32,7 @@ def func_lights_in_all_rooms(count_room=None, windows=None):
         room = room_info(*day.split('-'))
         lst_personal_numbers_rooms = []
         lst_is_light = []
+        set_rooms_with_light = set()
         if not (windows is None) and room['windows_for_flat']['data'] != windows:
             continue
         if not (count_room is None) and len(room['windows_for_flat']['data']) != count_room:
@@ -42,7 +43,11 @@ def func_lights_in_all_rooms(count_room=None, windows=None):
                 floor_lst.extend([i * 3 + k + 1] * j)
             lst_personal_numbers_rooms.append(floor_lst)
             lst_is_light.append(room['windows']['data'][f'floor_{i + 1}'])
-        res_lst.append((lst_personal_numbers_rooms[::-1], lst_is_light[::-1]))
+        for i in range(len(lst_personal_numbers_rooms)):
+            for j in range(len(lst_personal_numbers_rooms[i])):
+                if lst_is_light[i][j] is True:
+                    set_rooms_with_light.add(lst_personal_numbers_rooms[i][j])
+        res_lst.append((lst_personal_numbers_rooms[::-1], lst_is_light[::-1], sorted(set_rooms_with_light)))
     return res_lst
 
 
@@ -52,13 +57,18 @@ def func_light_in_one_room(day=None, month=None, year=None):
     room = room_info(day, month, year)
     lst_personal_numbers_rooms = []
     lst_is_light = []
+    set_rooms_with_light = set()
     for i in range(len(room['windows']['data'])):
         floor_lst = [] * sum(map(int, room['windows_for_flat']['data']))
         for k, j in enumerate(room['windows_for_flat']['data']):
             floor_lst.extend([i * 3 + k + 1] * j)
         lst_personal_numbers_rooms.append(floor_lst)
         lst_is_light.append(room['windows']['data'][f'floor_{i + 1}'])
-    return lst_personal_numbers_rooms[::-1], lst_is_light[::-1]
+    for i in range(len(lst_personal_numbers_rooms)):
+        for j in range(len(lst_personal_numbers_rooms[i])):
+            if lst_is_light[i][j] is True:
+                set_rooms_with_light.add(lst_personal_numbers_rooms[i][j])
+    return lst_personal_numbers_rooms[::-1], lst_is_light[::-1], sorted(set_rooms_with_light)
 
 
 pprint(func_light_in_one_room(25, '01', 23))
